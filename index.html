@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1c1a" />
+    <meta name="description" content="Endure Squad quick self-check worksheet" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Endure Squad Worksheet</title>
+  </head>
+  <body>
+    <main class="app" id="app" aria-live="polite">
+      <header class="app__header">
+        <div class="brand">
+          <span class="brand__dot"></span>
+          <span class="brand__name">Endure Squad</span>
+        </div>
+        <div class="episode">Episode Worksheet</div>
+      </header>
+
+      <section class="card" id="screen-1" data-screen="1">
+        <h1 class="title" id="screen1Title">Quick check-in</h1>
+        <p class="prompt" id="screen1Prompt">In the last 7 days, how many days did you do the routine you intended?</p>
+        <div class="slider">
+          <div class="slider__value" id="daysValue" aria-live="polite">3</div>
+          <input
+            type="range"
+            id="daysRange"
+            min="0"
+            max="7"
+            value="3"
+            aria-label="Days you followed your routine"
+          />
+          <div class="slider__labels">
+            <span>0</span>
+            <span>7</span>
+          </div>
+        </div>
+        <p class="helper" id="screen1Helper">Approximate is fine.</p>
+        <button class="primary" id="toScreen2">Next</button>
+      </section>
+
+      <section class="card" id="screen-2" data-screen="2" hidden>
+        <h1 class="title" id="screen2Title">Main blocker</h1>
+        <p class="prompt" id="screen2Prompt">What got in the way most often?</p>
+        <div class="options" role="radiogroup" aria-label="Select the main blocker">
+          <label class="option">
+            <input type="radio" name="friction" value="time_fragmentation" />
+            <span>Time fragmentation</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="friction" value="family_obligations" />
+            <span>Family / social obligations</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="friction" value="decision_fatigue" />
+            <span>Decision fatigue</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="friction" value="environment" />
+            <span>Environment (space, equipment, weather)</span>
+          </label>
+        </div>
+        <button class="primary" id="toScreen3" disabled>Next</button>
+      </section>
+
+      <section class="card" id="screen-3" data-screen="3" hidden>
+        <h1 class="title" id="screen3Title">Your fallback plan</h1>
+        <p class="prompt" id="screen3Prompt">Edit this to fit your week.</p>
+        <div class="plan">
+          <div class="plan__row">
+            <span class="plan__label">IF</span>
+            <span class="plan__value" id="ifValue">family interrupts my routine</span>
+          </div>
+          <div class="plan__row">
+            <span class="plan__label">THEN I will</span>
+            <select id="actionSelect" aria-label="Pick a fallback action"></select>
+          </div>
+          <div class="plan__row">
+            <span class="plan__label">AT</span>
+            <select id="anchorSelect" aria-label="Pick a time anchor"></select>
+          </div>
+        </div>
+        <button class="primary" id="savePlan">Save plan</button>
+        <p class="helper" id="saveStatus" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="/config.js"></script>
+    <script src="/script.js"></script>
+  </body>
+</html>
