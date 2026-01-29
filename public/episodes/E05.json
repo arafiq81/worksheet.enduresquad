@@ -1,0 +1,35 @@
+{
+  "episode_id": "E05",
+  "title": "Episode 5 — What progress actually looks like",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many times did you notice small progress?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "What hides progress from you most often?",
+    "options": [
+      { "value": "time_fragmentation", "label": "Days feel too scattered to notice" },
+      { "value": "family_obligations", "label": "Others’ needs take priority" },
+      { "value": "decision_fatigue", "label": "I keep changing the plan" },
+      { "value": "environment", "label": "My environment resets me" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "track_one", "label": "track one tiny signal of progress" },
+      { "value": "repeat", "label": "repeat the smallest consistent action" },
+      { "value": "micro_win", "label": "log one micro‑win daily" },
+      { "value": "same_time", "label": "repeat at the same time once this week" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

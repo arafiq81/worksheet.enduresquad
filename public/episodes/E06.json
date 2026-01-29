@@ -1,0 +1,35 @@
+{
+  "episode_id": "E06",
+  "title": "Episode 6 — What future I’m training for",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many times did you act for your future self?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "What pulls you away from that future most?",
+    "options": [
+      { "value": "time_fragmentation", "label": "Short‑term chaos wins" },
+      { "value": "family_obligations", "label": "Other people’s needs" },
+      { "value": "decision_fatigue", "label": "Too many choices" },
+      { "value": "environment", "label": "Surroundings don’t support it" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "future_block", "label": "do a short block for future me" },
+      { "value": "identity_action", "label": "do one action that matches my future identity" },
+      { "value": "tiny_invest", "label": "make one tiny investment today" },
+      { "value": "protect_time", "label": "protect 10 minutes for it" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

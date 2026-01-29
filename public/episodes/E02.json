@@ -1,0 +1,35 @@
+{
+  "episode_id": "E02",
+  "title": "Episode 2 — Why effort isn’t working",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many days did you put in effort but still felt stuck?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "What made effort fail most often?",
+    "options": [
+      { "value": "time_fragmentation", "label": "Time fragmentation" },
+      { "value": "family_obligations", "label": "Family / social obligations" },
+      { "value": "decision_fatigue", "label": "Decision fatigue" },
+      { "value": "environment", "label": "Environment (space, equipment, weather)" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "minimum_effort", "label": "do the minimum version for 7 minutes" },
+      { "value": "split_task", "label": "split it into two short blocks" },
+      { "value": "reduce_scope", "label": "reduce the scope and start anyway" },
+      { "value": "start_anchor", "label": "start with the easiest first step" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "episode_id": "E08",
+  "title": "Episode 8 — My personal system",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many times did you follow a system (not a mood)?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "What breaks your system most often?",
+    "options": [
+      { "value": "time_fragmentation", "label": "Time fragmentation" },
+      { "value": "family_obligations", "label": "Family / social obligations" },
+      { "value": "decision_fatigue", "label": "Decision fatigue" },
+      { "value": "environment", "label": "Environment (space, equipment, weather)" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "system_minimum", "label": "do the minimum version of my system" },
+      { "value": "system_anchor", "label": "anchor the system to one daily event" },
+      { "value": "system_default", "label": "run the default without changing it" },
+      { "value": "system_reset", "label": "reset and restart without guilt" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

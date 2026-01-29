@@ -1,0 +1,35 @@
+{
+  "episode_id": "E03",
+  "title": "Episode 3 — What fear/belief is active",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many times did fear or doubt slow you down?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "What belief or fear shows up most?",
+    "options": [
+      { "value": "time_fragmentation", "label": "I never have enough uninterrupted time" },
+      { "value": "family_obligations", "label": "If I focus on me, I’m neglecting others" },
+      { "value": "decision_fatigue", "label": "I keep overthinking the right plan" },
+      { "value": "environment", "label": "My surroundings make this hard" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "two_min_start", "label": "start for just 2 minutes" },
+      { "value": "proof_action", "label": "do one small proof action" },
+      { "value": "simplify_choice", "label": "pick the default plan without debate" },
+      { "value": "remove_barrier", "label": "remove one barrier and begin" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "episode_id": "E07",
+  "title": "Episode 7 — What future I’m training for (Part 2)",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many times did you stick to your future‑self plan?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "What breaks that future‑self plan most?",
+    "options": [
+      { "value": "time_fragmentation", "label": "Time keeps slipping" },
+      { "value": "family_obligations", "label": "Family / social obligations" },
+      { "value": "decision_fatigue", "label": "I rethink it too much" },
+      { "value": "environment", "label": "Environment makes it hard" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "default_plan", "label": "run the default plan without negotiation" },
+      { "value": "micro_commit", "label": "commit to 5 minutes only" },
+      { "value": "prep_shortcut", "label": "prepare one shortcut in advance" },
+      { "value": "pair_trigger", "label": "pair it with a daily trigger" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

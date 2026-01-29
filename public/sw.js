@@ -1,4 +1,4 @@
-const CACHE_NAME = "endure-worksheet-v14";
+const CACHE_NAME = "endure-worksheet-v15";
 const ASSETS = [
   "/",
   "/index.html",
@@ -7,6 +7,14 @@ const ASSETS = [
   "/script.js",
   "/stats.html",
   "/stats.js",
+  "/episodes/E01.json",
+  "/episodes/E02.json",
+  "/episodes/E03.json",
+  "/episodes/E04.json",
+  "/episodes/E05.json",
+  "/episodes/E06.json",
+  "/episodes/E07.json",
+  "/episodes/E08.json",
   "/manifest.json",
   "/icon.svg",
 ];

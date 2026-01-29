@@ -1,0 +1,35 @@
+{
+  "episode_id": "E04",
+  "title": "Episode 4 — What life constraint is real",
+  "screen1": {
+    "title": "Quick check-in",
+    "prompt": "In the last 7 days, how many days were blocked by real constraints?",
+    "helper": "Approximate is fine."
+  },
+  "screen2": {
+    "title": "Main blocker",
+    "prompt": "Which constraint is most real for you?",
+    "options": [
+      { "value": "time_fragmentation", "label": "Time is broken into fragments" },
+      { "value": "family_obligations", "label": "Family / social obligations" },
+      { "value": "decision_fatigue", "label": "I’m drained by decisions" },
+      { "value": "environment", "label": "Space / equipment / weather" }
+    ]
+  },
+  "screen3": {
+    "title": "Your fallback plan",
+    "prompt": "Edit this to fit your week.",
+    "actions": [
+      { "value": "short_block", "label": "do a 7‑minute version" },
+      { "value": "anchor_micro", "label": "anchor a tiny routine to one daily event" },
+      { "value": "prep_ahead", "label": "set it up the night before" },
+      { "value": "make_room", "label": "clear a small space for it" }
+    ],
+    "anchors": [
+      { "value": "after_dinner", "label": "immediately after dinner" },
+      { "value": "before_bed", "label": "before bed" },
+      { "value": "morning", "label": "right after I wake up" },
+      { "value": "lunch_break", "label": "during my lunch break" }
+    ]
+  }
+}

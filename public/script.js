@@ -21,6 +21,7 @@ const screen2Title = document.getElementById("screen2Title");
 const screen2Prompt = document.getElementById("screen2Prompt");
 const screen3Title = document.getElementById("screen3Title");
 const screen3Prompt = document.getElementById("screen3Prompt");
+const episodeLabel = document.querySelector(".episode");
 
 const frictionCopy = {
   time_fragmentation: "my day keeps fragmenting",
@@ -210,6 +211,18 @@ function applyConfig() {
     return;
   }
 
+  if (episodeLabel && worksheetConfig.title) {
+    episodeLabel.textContent = worksheetConfig.title;
+  }
+
+  if (worksheetConfig.mode === "info") {
+    screen1Title.textContent = "No worksheet";
+    screen1Prompt.textContent = worksheetConfig.message || "No worksheet for this episode.";
+    screen1Helper.textContent = "";
+    document.getElementById("toScreen2").hidden = true;
+    return;
+  }
+
   screen1Title.textContent = worksheetConfig.screen1.title;
   screen1Prompt.textContent = worksheetConfig.screen1.prompt;
   screen1Helper.textContent = worksheetConfig.screen1.helper;
@@ -217,6 +230,18 @@ function applyConfig() {
   screen2Prompt.textContent = worksheetConfig.screen2.prompt;
   screen3Title.textContent = worksheetConfig.screen3.title;
   screen3Prompt.textContent = worksheetConfig.screen3.prompt;
+
+  const options = worksheetConfig.screen2.options;
+  const optionsContainer = document.querySelector(".options");
+  if (options && optionsContainer) {
+    optionsContainer.innerHTML = "";
+    options.forEach((option) => {
+      const label = document.createElement("label");
+      label.className = "option";
+      label.innerHTML = `<input type=\"radio\" name=\"friction\" value=\"${option.value}\" /><span>${option.label}</span>`;
+      optionsContainer.appendChild(label);
+    });
+  }
 
   actionSelect.innerHTML = "";
   worksheetConfig.screen3.actions.forEach((action) => {
@@ -235,8 +260,56 @@ function applyConfig() {
   });
 }
 
-applyConfig();
-initSupabaseWithRetry();
+async function loadEpisodeConfig() {
+  const params = new URLSearchParams(window.location.search);
+  const episodeId = params.get("ep") || "E02";
+  try {
+    const response = await fetch(`/episodes/${episodeId}.json`, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("Episode config not found");
+    }
+    window.worksheetConfig = await response.json();
+  } catch (error) {
+    window.worksheetConfig = {
+      title: "Episode Worksheet",
+      screen1: {
+        title: "Quick check-in",
+        prompt: "In the last 7 days, how many days did you do the routine you intended?",
+        helper: "Approximate is fine.",
+      },
+      screen2: {
+        title: "Main blocker",
+        prompt: "What got in the way most often?",
+        options: [
+          { value: "time_fragmentation", label: "Time fragmentation" },
+          { value: "family_obligations", label: "Family / social obligations" },
+          { value: "decision_fatigue", label: "Decision fatigue" },
+          { value: "environment", label: "Environment (space, equipment, weather)" }
+        ],
+      },
+      screen3: {
+        title: "Your fallback plan",
+        prompt: "Edit this to fit your week.",
+        actions: [
+          { value: "7_min_floor", label: "do a 7-minute floor routine" },
+          { value: "10_min_walk", label: "take a 10-minute walk" },
+          { value: "5_min_mobility", label: "do a 5-minute mobility set" },
+          { value: "1_set_core", label: "do one set of core movements" }
+        ],
+        anchors: [
+          { value: "after_dinner", label: "immediately after dinner" },
+          { value: "before_bed", label: "before bed" },
+          { value: "morning", label: "right after I wake up" },
+          { value: "lunch_break", label: "during my lunch break" }
+        ],
+      }
+    };
+  }
+  applyConfig();
+  initSupabaseWithRetry();
+}
+
+loadEpisodeConfig();
 
 daysRange.addEventListener("input", (event) => {
   daysValue.textContent = event.target.value;
@@ -247,12 +320,12 @@ toScreen2.addEventListener("click", () => {
   showScreen(1);
 });
 
-document.querySelectorAll("input[name='friction']").forEach((input) => {
-  input.addEventListener("change", () => {
+document.addEventListener("change", (event) => {
+  if (event.target && event.target.name === "friction") {
     const friction = getSelectedFriction();
     ifValue.textContent = frictionCopy[friction] || "family interrupts my routine";
     toScreen3.disabled = false;
-  });
+  }
 });
 
 toScreen3.addEventListener("click", () => {
