@@ -60,16 +60,19 @@ async function sendEvent(name, payload) {
     const { error } = await supabaseClient.from("worksheet_events").insert([event]);
     if (error) {
       console.error("Supabase insert error:", error);
-      try {
-        console.error("Supabase insert error (json):", JSON.stringify(error));
-      } catch (jsonError) {
-        console.error("Supabase error stringify failed", jsonError);
+      console.dir(error);
+      let errorMessage = "Unknown error";
+      if (error && typeof error === "object") {
+        errorMessage = error.message || error.details || error.hint || "Unknown error";
       }
+      saveStatus.textContent = `Save failed: ${errorMessage}`;
     } else {
+      saveStatus.textContent = "Saved. You can close this tab.";
       console.log("Supabase insert ok:", name);
     }
   } catch (error) {
     console.error("Supabase insert failed", error);
+    saveStatus.textContent = "Save failed: network or config error.";
   }
 }
 
