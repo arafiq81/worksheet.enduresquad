@@ -30,8 +30,12 @@ const frictionCopy = {
 
 let supabaseClient = null;
 let supabaseReady = false;
+let supabaseInitAttempts = 0;
 
 function initSupabase() {
+  if (supabaseReady) {
+    return;
+  }
   if (!window.worksheetConfig || !worksheetConfig.analytics.enabled) {
     return;
   }
@@ -47,6 +51,14 @@ function initSupabase() {
 
   supabaseClient = window.supabase.createClient(url, key);
   supabaseReady = true;
+}
+
+function initSupabaseWithRetry() {
+  initSupabase();
+  if (!supabaseReady && supabaseInitAttempts < 10) {
+    supabaseInitAttempts += 1;
+    setTimeout(initSupabaseWithRetry, 500);
+  }
 }
 
 async function sendEvent(name, payload) {
@@ -137,7 +149,7 @@ function applyConfig() {
 }
 
 applyConfig();
-initSupabase();
+initSupabaseWithRetry();
 
 daysRange.addEventListener("input", (event) => {
   daysValue.textContent = event.target.value;
