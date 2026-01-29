@@ -83,6 +83,18 @@ function initSupabaseWithRetry() {
 }
 
 async function sendEvent(name, payload) {
+  if (!window.worksheetConfig) {
+    saveStatus.textContent = "Save failed: config not loaded.";
+    return;
+  }
+  if (!worksheetConfig.analytics || !worksheetConfig.analytics.enabled) {
+    saveStatus.textContent = "Save failed: analytics disabled.";
+    return;
+  }
+  if (!worksheetConfig.analytics.supabaseUrl || !worksheetConfig.analytics.supabaseAnonKey) {
+    saveStatus.textContent = "Save failed: missing Supabase config.";
+    return;
+  }
   if (!supabaseClient || !supabaseReady) {
     try {
       await loadSupabaseScript();
@@ -96,7 +108,9 @@ async function sendEvent(name, payload) {
     }
   }
   if (!supabaseClient || !supabaseReady) {
-    saveStatus.textContent = "Save failed: analytics not ready.";
+    saveStatus.textContent = window.supabase
+      ? "Save failed: analytics not ready."
+      : "Save failed: Supabase library not loaded.";
     return;
   }
   const event = {
