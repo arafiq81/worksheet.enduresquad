@@ -32,6 +32,26 @@ let supabaseClient = null;
 let supabaseReady = false;
 let supabaseInitAttempts = 0;
 
+function loadConfigScript() {
+  if (window.worksheetConfig) {
+    return Promise.resolve();
+  }
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector("script[data-config]");
+    if (existing) {
+      existing.addEventListener("load", resolve);
+      existing.addEventListener("error", reject);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "/config.js";
+    script.dataset.config = "true";
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
 function loadSupabaseScript() {
   if (window.supabase) {
     return Promise.resolve();
@@ -83,6 +103,13 @@ function initSupabaseWithRetry() {
 }
 
 async function sendEvent(name, payload) {
+  if (!window.worksheetConfig) {
+    try {
+      await loadConfigScript();
+    } catch (error) {
+      console.error("Config script failed to load", error);
+    }
+  }
   if (!window.worksheetConfig) {
     saveStatus.textContent = "Save failed: config not loaded.";
     return;
