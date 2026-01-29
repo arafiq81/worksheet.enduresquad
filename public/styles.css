@@ -72,6 +72,12 @@ body {
   line-height: 1.4;
 }
 
+.intro {
+  margin: 0;
+  font-weight: 600;
+  color: #1a2423;
+}
+
 .slider {
   display: grid;
   gap: 12px;
@@ -153,6 +159,10 @@ select {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   cursor: pointer;
   box-shadow: 0 12px 25px rgba(224, 122, 69, 0.25);
+}
+
+.primary:active {
+  transform: scale(0.98);
 }
 
 .primary:disabled {

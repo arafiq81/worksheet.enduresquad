@@ -22,6 +22,7 @@
 
       <section class="card" id="screen-1" data-screen="1">
         <h1 class="title" id="screen1Title">Quick check-in</h1>
+        <p class="intro" id="screen1Intro"></p>
         <p class="prompt" id="screen1Prompt">In the last 7 days, how many days did you do the routine you intended?</p>
         <div class="slider">
           <div class="slider__value" id="daysValue" aria-live="polite">3</div>
@@ -90,7 +91,7 @@
       <section class="card" id="screen-4" data-screen="4" hidden>
         <h1 class="title">Plan saved</h1>
         <p class="prompt">You’re done for this week. Use the fallback if needed.</p>
-        <p class="helper">No tracking. No pressure.</p>
+        <p class="helper" id="planSummary"></p>
         <div class="stats-block">
           <h2 class="title">Community snapshot</h2>
           <div class="summary" id="inlineDaysSummary"></div>

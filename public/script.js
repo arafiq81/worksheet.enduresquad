@@ -22,6 +22,8 @@ const screen2Prompt = document.getElementById("screen2Prompt");
 const screen3Title = document.getElementById("screen3Title");
 const screen3Prompt = document.getElementById("screen3Prompt");
 const episodeLabel = document.querySelector(".episode");
+const screen1Intro = document.getElementById("screen1Intro");
+const planSummary = document.getElementById("planSummary");
 
 const frictionCopy = {
   time_fragmentation: "my day keeps fragmenting",
@@ -229,6 +231,7 @@ function applyConfig() {
   screen1Title.textContent = worksheetConfig.screen1.title;
   screen1Prompt.textContent = worksheetConfig.screen1.prompt;
   screen1Helper.textContent = worksheetConfig.screen1.helper;
+  screen1Intro.textContent = worksheetConfig.screen1.intro || "";
   screen2Title.textContent = worksheetConfig.screen2.title;
   screen2Prompt.textContent = worksheetConfig.screen2.prompt;
   screen3Title.textContent = worksheetConfig.screen3.title;
@@ -352,8 +355,11 @@ savePlan.addEventListener("click", async () => {
     anchor: anchorSelect.value,
   };
   saveStatus.textContent = "Saving…";
+  const actionLabel = actionSelect.options[actionSelect.selectedIndex]?.textContent || "your fallback";
+  const anchorLabel = anchorSelect.options[anchorSelect.selectedIndex]?.textContent || "your anchor";
   await logEvent("fallback_plan", payload);
   savePlan.disabled = true;
+  planSummary.textContent = `Your fallback is: ${actionLabel}, ${anchorLabel}.`;
 });
 
 if ("serviceWorker" in navigator) {

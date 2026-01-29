@@ -68,10 +68,10 @@ async function loadStats(targets = {}) {
     targets.days || document.getElementById("daysSummary"),
     topDays ? `${formatPercent(topDays.total, daysTotal)} chose ${topDays.label} days.` : ""
   );
-  renderSummary(
-    targets.friction || document.getElementById("frictionSummary"),
-    topFriction ? `${formatPercent(topFriction.total, frictionTotal)} share the same blocker: ${topFriction.label}.` : ""
-  );
+  const frictionText = topFriction
+    ? `${formatPercent(topFriction.total, frictionTotal)} share the same blocker: ${topFriction.label}.`
+    : "";
+  renderSummary(targets.friction || document.getElementById("frictionSummary"), frictionText);
   renderSummary(
     targets.action || document.getElementById("actionSummary"),
     topAction ? `${formatPercent(topAction.total, actionTotal)} picked: ${topAction.label}.` : ""

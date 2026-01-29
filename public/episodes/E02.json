@@ -3,6 +3,7 @@
   "title": "Episode 2 — Why effort isn’t working",
   "screen1": {
     "title": "Quick check-in",
+    "intro": "You’re not alone in this.",
     "prompt": "In the last 7 days, how many days did you put in effort but still felt stuck?",
     "helper": "Approximate is fine."
   },
