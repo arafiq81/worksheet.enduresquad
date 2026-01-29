@@ -1,4 +1,4 @@
-const worksheetConfig = {
+window.worksheetConfig = {
   analytics: {
     enabled: true,
     supabaseUrl: "https://crtgcqnwmdksgphtvfzo.supabase.co",
