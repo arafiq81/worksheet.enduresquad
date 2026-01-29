@@ -170,6 +170,9 @@ async function sendEvent(name, payload, options = {}) {
     } else {
       if (!silent) {
         showScreen(3);
+        if (window.renderInlineStats) {
+          window.renderInlineStats();
+        }
       }
     }
   } catch (error) {

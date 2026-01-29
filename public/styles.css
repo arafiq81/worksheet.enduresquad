@@ -177,6 +177,12 @@ select {
   font-size: 0.9rem;
 }
 
+.stats-block {
+  display: grid;
+  gap: 16px;
+  margin-top: 8px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

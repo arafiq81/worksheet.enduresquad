@@ -15,7 +15,7 @@ function renderTable(container, rows, headers) {
   container.innerHTML = `<table><thead>${headerRow}</thead><tbody>${bodyRows}</tbody></table>`;
 }
 
-async function loadStats() {
+async function loadStats(targets = {}) {
   if (!window.worksheetConfig || !worksheetConfig.analytics.enabled) {
     return;
   }
@@ -49,25 +49,25 @@ async function loadStats() {
   const anchorTotal = (anchorRows || []).reduce((sum, row) => sum + Number(row.total || 0), 0);
 
   renderTable(
-    document.getElementById("daysTable"),
+    targets.days || document.getElementById("daysTable"),
     (daysRows || []).map((row) => [row.days, row.total, formatPercent(row.total, daysTotal)]),
     ["Days", "Count", "%"]
   );
 
   renderTable(
-    document.getElementById("frictionTable"),
+    targets.friction || document.getElementById("frictionTable"),
     (frictionRows || []).map((row) => [row.friction || "(unknown)", row.total, formatPercent(row.total, frictionTotal)]),
     ["Blocker", "Count", "%"]
   );
 
   renderTable(
-    document.getElementById("actionTable"),
+    targets.action || document.getElementById("actionTable"),
     (actionRows || []).map((row) => [row.action || "(unknown)", row.total, formatPercent(row.total, actionTotal)]),
     ["Action", "Count", "%"]
   );
 
   renderTable(
-    document.getElementById("anchorTable"),
+    targets.anchor || document.getElementById("anchorTable"),
     (anchorRows || []).map((row) => [row.anchor || "(unknown)", row.total, formatPercent(row.total, anchorTotal)]),
     ["Time Anchor", "Count", "%"]
   );
@@ -76,3 +76,12 @@ async function loadStats() {
 window.addEventListener("load", () => {
   loadStats();
 });
+
+window.renderInlineStats = () => {
+  loadStats({
+    days: document.getElementById("inlineDaysTable"),
+    friction: document.getElementById("inlineFrictionTable"),
+    action: document.getElementById("inlineActionTable"),
+    anchor: document.getElementById("inlineAnchorTable"),
+  });
+};
