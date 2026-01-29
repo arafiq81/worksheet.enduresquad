@@ -2,6 +2,7 @@ const screens = [
   document.getElementById("screen-1"),
   document.getElementById("screen-2"),
   document.getElementById("screen-3"),
+  document.getElementById("screen-4"),
 ];
 
 const daysRange = document.getElementById("daysRange");
@@ -113,13 +114,13 @@ async function sendEvent(name, payload, options = {}) {
   }
   if (!window.worksheetConfig) {
     if (!silent) {
-      saveStatus.textContent = "Save failed: config not loaded.";
+      saveStatus.textContent = "Save failed. Please refresh and try again.";
     }
     return;
   }
   if (!worksheetConfig.analytics || !worksheetConfig.analytics.enabled) {
     if (!silent) {
-      saveStatus.textContent = "Save failed: analytics disabled.";
+      saveStatus.textContent = "Save failed. Please refresh and try again.";
     }
     return;
   }
@@ -127,15 +128,9 @@ async function sendEvent(name, payload, options = {}) {
   const supabaseKey = worksheetConfig.analytics.supabaseAnonKey;
   const keyParts = supabaseKey ? supabaseKey.split(".") : [];
   const keyLooksJwt = keyParts.length === 3;
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseUrl || !supabaseKey || !keyLooksJwt) {
     if (!silent) {
-      saveStatus.textContent = "Save failed: missing Supabase config.";
-    }
-    return;
-  }
-  if (!keyLooksJwt) {
-    if (!silent) {
-      saveStatus.textContent = "Save failed: Supabase key is not a JWT.";
+      saveStatus.textContent = "Save failed. Please refresh and try again.";
     }
     return;
   }
@@ -153,9 +148,7 @@ async function sendEvent(name, payload, options = {}) {
   }
   if (!supabaseClient || !supabaseReady) {
     if (!silent) {
-      saveStatus.textContent = window.supabase
-        ? "Save failed: analytics not ready."
-        : "Save failed: Supabase library not loaded.";
+      saveStatus.textContent = "Save failed. Please refresh and try again.";
     }
     return;
   }
@@ -171,25 +164,17 @@ async function sendEvent(name, payload, options = {}) {
     );
     const { error } = await Promise.race([insertPromise, timeoutPromise]);
     if (error) {
-      console.error("Supabase insert error:", error);
-      console.dir(error);
-      let errorMessage = "Unknown error";
-      if (error && typeof error === "object") {
-        errorMessage = error.message || error.details || error.hint || "Unknown error";
-      }
       if (!silent) {
-        saveStatus.textContent = `Save failed: ${errorMessage}`;
+        saveStatus.textContent = "Save failed. Please refresh and try again.";
       }
     } else {
       if (!silent) {
-        saveStatus.textContent = "Saved. You can close this tab.";
+        showScreen(3);
       }
-      console.log("Supabase insert ok:", name);
     }
   } catch (error) {
-    console.error("Supabase insert failed", error);
     if (!silent) {
-      saveStatus.textContent = `Save failed: ${error.message || "network or config error"}.`;
+      saveStatus.textContent = "Save failed. Please refresh and try again.";
     }
   }
 }
