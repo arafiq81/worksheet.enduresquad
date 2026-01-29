@@ -20,7 +20,7 @@
 body {
   margin: 0;
   font-family: var(--font);
-  background: radial-gradient(circle at top, #12312c 0%, var(--bg) 55%);
+  background: #000;
   color: var(--ink);
   min-height: 100vh;
   display: grid;
@@ -35,26 +35,15 @@ body {
 }
 
 .app__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  justify-items: center;
   color: #e5ded2;
   letter-spacing: 0.02em;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-.brand__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--primary);
-  box-shadow: 0 0 12px rgba(224, 122, 69, 0.6);
+.brand__logo {
+  height: 24px;
+  width: auto;
 }
 
 .episode {

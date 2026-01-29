@@ -1,4 +1,4 @@
-const CACHE_NAME = "endure-worksheet-v20";
+const CACHE_NAME = "endure-worksheet-v21";
 const ASSETS = [
   "/",
   "/index.html",
@@ -17,6 +17,7 @@ const ASSETS = [
   "/episodes/E08.json",
   "/manifest.json",
   "/icon.svg",
+  "/logo.png",
 ];
 
 self.addEventListener("install", (event) => {
