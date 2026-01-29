@@ -96,7 +96,7 @@ function logEvent(name, payload) {
   const history = JSON.parse(localStorage.getItem("worksheetEvents") || "[]");
   history.push(entry);
   localStorage.setItem("worksheetEvents", JSON.stringify(history));
-  sendEvent(name, payload);
+  return sendEvent(name, payload);
 }
 
 function applyConfig() {
@@ -154,14 +154,14 @@ toScreen3.addEventListener("click", () => {
   showScreen(2);
 });
 
-savePlan.addEventListener("click", () => {
+savePlan.addEventListener("click", async () => {
   const payload = {
     friction: getSelectedFriction(),
     action: actionSelect.value,
     anchor: anchorSelect.value,
   };
-  logEvent("fallback_plan", payload);
-  saveStatus.textContent = "Saved. You can close this tab.";
+  saveStatus.textContent = "Saving…";
+  await logEvent("fallback_plan", payload);
   savePlan.disabled = true;
 });
 
