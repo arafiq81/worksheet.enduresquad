@@ -2,7 +2,7 @@ const worksheetConfig = {
   analytics: {
     enabled: true,
     supabaseUrl: "https://crtgcqnwmdksgphtvfzo.supabase.co",
-    supabaseAnonKey: "sb_publishable_-9TzSAGYbflXmIaUzNfobA_PBSB1ScS"
+    supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNydGdjcW53bWRrc2dwaHR2ZnpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2MTYyOTksImV4cCI6MjA4NTE5MjI5OX0.7KOrUK9BZNj7pf9v3J7oI1PDyu0y_R9Rk32puGHtyP8"
   },
   screen1: {
     title: "Quick check-in",

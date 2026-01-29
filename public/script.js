@@ -29,6 +29,7 @@ const frictionCopy = {
 };
 
 let supabaseClient = null;
+let supabaseReady = false;
 
 function initSupabase() {
   if (!window.worksheetConfig || !worksheetConfig.analytics.enabled) {
@@ -45,10 +46,12 @@ function initSupabase() {
   }
 
   supabaseClient = window.supabase.createClient(url, key);
+  supabaseReady = true;
 }
 
 async function sendEvent(name, payload) {
-  if (!supabaseClient) {
+  if (!supabaseClient || !supabaseReady) {
+    saveStatus.textContent = "Save failed: analytics not ready.";
     return;
   }
   const event = {
@@ -57,7 +60,11 @@ async function sendEvent(name, payload) {
   };
 
   try {
-    const { error } = await supabaseClient.from("worksheet_events").insert([event]);
+    const insertPromise = supabaseClient.from("worksheet_events").insert([event]);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Insert timed out")), 8000)
+    );
+    const { error } = await Promise.race([insertPromise, timeoutPromise]);
     if (error) {
       console.error("Supabase insert error:", error);
       console.dir(error);
@@ -72,7 +79,7 @@ async function sendEvent(name, payload) {
     }
   } catch (error) {
     console.error("Supabase insert failed", error);
-    saveStatus.textContent = "Save failed: network or config error.";
+    saveStatus.textContent = `Save failed: ${error.message || "network or config error"}.`;
   }
 }
 
