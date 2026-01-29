@@ -26,16 +26,26 @@ async function loadStats(targets = {}) {
   }
   const client = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+  const params = new URLSearchParams(window.location.search);
+  const episodeId = params.get("ep");
+
+  const applyEpisodeFilter = (query) => {
+    if (episodeId) {
+      return query.eq("episode_id", episodeId);
+    }
+    return query;
+  };
+
   const [
     { data: daysRows, error: daysError },
     { data: frictionRows, error: frictionError },
     { data: actionRows, error: actionError },
     { data: anchorRows, error: anchorError },
   ] = await Promise.all([
-    client.from("vw_days_counts").select("days,total").order("days", { ascending: true }),
-    client.from("vw_friction_counts").select("friction,total").order("total", { ascending: false }),
-    client.from("vw_action_counts").select("action,total").order("total", { ascending: false }),
-    client.from("vw_anchor_counts").select("anchor,total").order("total", { ascending: false }),
+    applyEpisodeFilter(client.from("vw_days_counts").select("days,total")).order("days", { ascending: true }),
+    applyEpisodeFilter(client.from("vw_friction_counts").select("friction,total")).order("total", { ascending: false }),
+    applyEpisodeFilter(client.from("vw_action_counts").select("action,total")).order("total", { ascending: false }),
+    applyEpisodeFilter(client.from("vw_anchor_counts").select("anchor,total")).order("total", { ascending: false }),
   ]);
 
   const anyError = daysError || frictionError || actionError || anchorError;

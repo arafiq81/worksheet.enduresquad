@@ -155,7 +155,10 @@ async function sendEvent(name, payload, options = {}) {
   }
   const event = {
     name,
-    payload,
+    payload: {
+      ...payload,
+      episode_id: window.currentEpisodeId || (window.worksheetConfig && worksheetConfig.episode_id) || "unknown"
+    },
   };
 
   try {
@@ -269,8 +272,10 @@ async function loadEpisodeConfig() {
       throw new Error("Episode config not found");
     }
     window.worksheetConfig = await response.json();
+    window.currentEpisodeId = episodeId;
   } catch (error) {
     window.worksheetConfig = {
+      episode_id: episodeId,
       title: "Episode Worksheet",
       screen1: {
         title: "Quick check-in",
