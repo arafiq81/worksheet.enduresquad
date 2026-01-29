@@ -57,7 +57,12 @@ async function sendEvent(name, payload) {
   };
 
   try {
-    await supabaseClient.from("worksheet_events").insert([event]);
+    const { error } = await supabaseClient.from("worksheet_events").insert([event]);
+    if (error) {
+      console.error("Supabase insert error:", error);
+    } else {
+      console.log("Supabase insert ok:", name);
+    }
   } catch (error) {
     console.error("Supabase insert failed", error);
   }
