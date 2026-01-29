@@ -32,6 +32,27 @@ let supabaseClient = null;
 let supabaseReady = false;
 let supabaseInitAttempts = 0;
 
+function loadSupabaseScript() {
+  if (window.supabase) {
+    return Promise.resolve();
+  }
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector("script[data-supabase]");
+    if (existing) {
+      existing.addEventListener("load", resolve);
+      existing.addEventListener("error", reject);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/@supabase/supabase-js@2";
+    script.defer = true;
+    script.dataset.supabase = "true";
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
 function initSupabase() {
   if (supabaseReady) {
     return;
@@ -63,9 +84,14 @@ function initSupabaseWithRetry() {
 
 async function sendEvent(name, payload) {
   if (!supabaseClient || !supabaseReady) {
+    try {
+      await loadSupabaseScript();
+    } catch (error) {
+      console.error("Supabase script failed to load", error);
+    }
     initSupabaseWithRetry();
     const start = Date.now();
-    while (!supabaseReady && Date.now() - start < 3000) {
+    while (!supabaseReady && Date.now() - start < 4000) {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
   }
