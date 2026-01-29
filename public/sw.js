@@ -1,10 +1,12 @@
-const CACHE_NAME = "endure-worksheet-v11";
+const CACHE_NAME = "endure-worksheet-v12";
 const ASSETS = [
   "/",
   "/index.html",
   "/config.js",
   "/styles.css",
   "/script.js",
+  "/stats.html",
+  "/stats.js",
   "/manifest.json",
   "/icon.svg",
 ];

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1c1a" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Endure Squad Stats</title>
+  </head>
+  <body>
+    <main class="app" id="app">
+      <header class="app__header">
+        <div class="brand">
+          <span class="brand__dot"></span>
+          <span class="brand__name">Endure Squad</span>
+        </div>
+        <div class="episode">Public Stats</div>
+      </header>
+
+      <section class="card">
+        <h1 class="title">Community snapshot</h1>
+        <p class="prompt">Anonymous totals only. Updated in real time.</p>
+      </section>
+
+      <section class="card">
+        <h2 class="title">Quick check‑in (days out of 7)</h2>
+        <div id="daysTable" class="table"></div>
+      </section>
+
+      <section class="card">
+        <h2 class="title">Main blocker</h2>
+        <div id="frictionTable" class="table"></div>
+      </section>
+    </main>
+
+    <script src="/config.js"></script>
+    <script defer src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="/stats.js"></script>
+  </body>
+</html>
