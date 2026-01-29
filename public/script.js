@@ -115,13 +115,13 @@ async function sendEvent(name, payload, options = {}) {
   }
   if (!window.worksheetConfig) {
     if (!silent) {
-      saveStatus.textContent = "Save failed. Please refresh and try again.";
+      saveStatus.textContent = "Save failed: config missing.";
     }
     return;
   }
   if (!worksheetConfig.analytics || !worksheetConfig.analytics.enabled) {
     if (!silent) {
-      saveStatus.textContent = "Save failed. Please refresh and try again.";
+      saveStatus.textContent = "Save failed: analytics disabled.";
     }
     return;
   }
@@ -131,7 +131,7 @@ async function sendEvent(name, payload, options = {}) {
   const keyLooksJwt = keyParts.length === 3;
   if (!supabaseUrl || !supabaseKey || !keyLooksJwt) {
     if (!silent) {
-      saveStatus.textContent = "Save failed. Please refresh and try again.";
+      saveStatus.textContent = "Save failed: bad Supabase config.";
     }
     return;
   }
@@ -149,7 +149,7 @@ async function sendEvent(name, payload, options = {}) {
   }
   if (!supabaseClient || !supabaseReady) {
     if (!silent) {
-      saveStatus.textContent = "Save failed. Please refresh and try again.";
+      saveStatus.textContent = "Save failed: analytics not ready.";
     }
     return;
   }
@@ -169,7 +169,7 @@ async function sendEvent(name, payload, options = {}) {
     const { error } = await Promise.race([insertPromise, timeoutPromise]);
     if (error) {
       if (!silent) {
-        saveStatus.textContent = "Save failed. Please refresh and try again.";
+        saveStatus.textContent = `Save failed: ${error.message || "unknown error"}.`;
       }
     } else {
       if (!silent) {
@@ -181,7 +181,7 @@ async function sendEvent(name, payload, options = {}) {
     }
   } catch (error) {
     if (!silent) {
-      saveStatus.textContent = "Save failed. Please refresh and try again.";
+      saveStatus.textContent = `Save failed: ${error.message || "network error"}.`;
     }
   }
 }
