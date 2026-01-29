@@ -102,7 +102,8 @@ function initSupabaseWithRetry() {
   }
 }
 
-async function sendEvent(name, payload) {
+async function sendEvent(name, payload, options = {}) {
+  const { silent } = options;
   if (!window.worksheetConfig) {
     try {
       await loadConfigScript();
@@ -111,11 +112,15 @@ async function sendEvent(name, payload) {
     }
   }
   if (!window.worksheetConfig) {
-    saveStatus.textContent = "Save failed: config not loaded.";
+    if (!silent) {
+      saveStatus.textContent = "Save failed: config not loaded.";
+    }
     return;
   }
   if (!worksheetConfig.analytics || !worksheetConfig.analytics.enabled) {
-    saveStatus.textContent = "Save failed: analytics disabled.";
+    if (!silent) {
+      saveStatus.textContent = "Save failed: analytics disabled.";
+    }
     return;
   }
   const supabaseUrl = worksheetConfig.analytics.supabaseUrl;
@@ -123,11 +128,15 @@ async function sendEvent(name, payload) {
   const keyParts = supabaseKey ? supabaseKey.split(".") : [];
   const keyLooksJwt = keyParts.length === 3;
   if (!supabaseUrl || !supabaseKey) {
-    saveStatus.textContent = "Save failed: missing Supabase config.";
+    if (!silent) {
+      saveStatus.textContent = "Save failed: missing Supabase config.";
+    }
     return;
   }
   if (!keyLooksJwt) {
-    saveStatus.textContent = "Save failed: Supabase key is not a JWT.";
+    if (!silent) {
+      saveStatus.textContent = "Save failed: Supabase key is not a JWT.";
+    }
     return;
   }
   if (!supabaseClient || !supabaseReady) {
@@ -143,9 +152,11 @@ async function sendEvent(name, payload) {
     }
   }
   if (!supabaseClient || !supabaseReady) {
-    saveStatus.textContent = window.supabase
-      ? "Save failed: analytics not ready."
-      : "Save failed: Supabase library not loaded.";
+    if (!silent) {
+      saveStatus.textContent = window.supabase
+        ? "Save failed: analytics not ready."
+        : "Save failed: Supabase library not loaded.";
+    }
     return;
   }
   const event = {
@@ -166,14 +177,20 @@ async function sendEvent(name, payload) {
       if (error && typeof error === "object") {
         errorMessage = error.message || error.details || error.hint || "Unknown error";
       }
-      saveStatus.textContent = `Save failed: ${errorMessage}`;
+      if (!silent) {
+        saveStatus.textContent = `Save failed: ${errorMessage}`;
+      }
     } else {
-      saveStatus.textContent = "Saved. You can close this tab.";
+      if (!silent) {
+        saveStatus.textContent = "Saved. You can close this tab.";
+      }
       console.log("Supabase insert ok:", name);
     }
   } catch (error) {
     console.error("Supabase insert failed", error);
-    saveStatus.textContent = `Save failed: ${error.message || "network or config error"}.`;
+    if (!silent) {
+      saveStatus.textContent = `Save failed: ${error.message || "network or config error"}.`;
+    }
   }
 }
 
@@ -188,7 +205,7 @@ function getSelectedFriction() {
   return selected ? selected.value : null;
 }
 
-function logEvent(name, payload) {
+function logEvent(name, payload, options) {
   const entry = {
     name,
     payload,
@@ -197,7 +214,7 @@ function logEvent(name, payload) {
   const history = JSON.parse(localStorage.getItem("worksheetEvents") || "[]");
   history.push(entry);
   localStorage.setItem("worksheetEvents", JSON.stringify(history));
-  return sendEvent(name, payload);
+  return sendEvent(name, payload, options);
 }
 
 function applyConfig() {
@@ -238,7 +255,7 @@ daysRange.addEventListener("input", (event) => {
 });
 
 toScreen2.addEventListener("click", () => {
-  logEvent("reality_check", { days: Number(daysRange.value) });
+  logEvent("reality_check", { days: Number(daysRange.value) }, { silent: true });
   showScreen(1);
 });
 
@@ -251,7 +268,7 @@ document.querySelectorAll("input[name='friction']").forEach((input) => {
 });
 
 toScreen3.addEventListener("click", () => {
-  logEvent("friction_selected", { friction: getSelectedFriction() });
+  logEvent("friction_selected", { friction: getSelectedFriction() }, { silent: true });
   showScreen(2);
 });
 

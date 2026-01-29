@@ -1,4 +1,4 @@
-const CACHE_NAME = "endure-worksheet-v8";
+const CACHE_NAME = "endure-worksheet-v9";
 const ASSETS = [
   "/",
   "/index.html",
