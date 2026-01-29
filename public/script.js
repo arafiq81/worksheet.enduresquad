@@ -266,15 +266,22 @@ function applyConfig() {
 async function loadEpisodeConfig() {
   const params = new URLSearchParams(window.location.search);
   const episodeId = params.get("ep") || "E02";
+  const baseConfig = window.baseConfig || window.worksheetConfig || {};
   try {
     const response = await fetch(`/episodes/${episodeId}.json`, { cache: "no-store" });
     if (!response.ok) {
       throw new Error("Episode config not found");
     }
-    window.worksheetConfig = await response.json();
+    const episodeConfig = await response.json();
+    window.worksheetConfig = {
+      ...baseConfig,
+      ...episodeConfig,
+      analytics: baseConfig.analytics,
+    };
     window.currentEpisodeId = episodeId;
   } catch (error) {
     window.worksheetConfig = {
+      ...baseConfig,
       episode_id: episodeId,
       title: "Episode Worksheet",
       screen1: {

@@ -16,11 +16,12 @@ function renderTable(container, rows, headers) {
 }
 
 async function loadStats(targets = {}) {
-  if (!window.worksheetConfig || !worksheetConfig.analytics.enabled) {
+  const baseConfig = window.baseConfig || window.worksheetConfig;
+  if (!baseConfig || !baseConfig.analytics || !baseConfig.analytics.enabled) {
     return;
   }
-  const supabaseUrl = worksheetConfig.analytics.supabaseUrl;
-  const supabaseKey = worksheetConfig.analytics.supabaseAnonKey;
+  const supabaseUrl = baseConfig.analytics.supabaseUrl;
+  const supabaseKey = baseConfig.analytics.supabaseAnonKey;
   if (!supabaseUrl || !supabaseKey) {
     return;
   }
