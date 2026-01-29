@@ -91,8 +91,16 @@ async function sendEvent(name, payload) {
     saveStatus.textContent = "Save failed: analytics disabled.";
     return;
   }
-  if (!worksheetConfig.analytics.supabaseUrl || !worksheetConfig.analytics.supabaseAnonKey) {
+  const supabaseUrl = worksheetConfig.analytics.supabaseUrl;
+  const supabaseKey = worksheetConfig.analytics.supabaseAnonKey;
+  const keyParts = supabaseKey ? supabaseKey.split(".") : [];
+  const keyLooksJwt = keyParts.length === 3;
+  if (!supabaseUrl || !supabaseKey) {
     saveStatus.textContent = "Save failed: missing Supabase config.";
+    return;
+  }
+  if (!keyLooksJwt) {
+    saveStatus.textContent = "Save failed: Supabase key is not a JWT.";
     return;
   }
   if (!supabaseClient || !supabaseReady) {
