@@ -63,6 +63,13 @@ function initSupabaseWithRetry() {
 
 async function sendEvent(name, payload) {
   if (!supabaseClient || !supabaseReady) {
+    initSupabaseWithRetry();
+    const start = Date.now();
+    while (!supabaseReady && Date.now() - start < 3000) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+  }
+  if (!supabaseClient || !supabaseReady) {
     saveStatus.textContent = "Save failed: analytics not ready.";
     return;
   }
