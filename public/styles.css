@@ -172,6 +172,12 @@ select {
   margin-top: 8px;
 }
 
+.summary__line {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

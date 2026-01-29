@@ -3,16 +3,16 @@ function formatPercent(count, total) {
   return `${Math.round((count / total) * 100)}%`;
 }
 
-function renderTable(container, rows, headers) {
-  if (!rows.length) {
-    container.innerHTML = "<p class=\"helper\">No data yet.</p>";
-    return;
-  }
-  const headerRow = `<tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr>`;
-  const bodyRows = rows
-    .map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`)
-    .join("");
-  container.innerHTML = `<table><thead>${headerRow}</thead><tbody>${bodyRows}</tbody></table>`;
+function pickTop(rows, field) {
+  if (!rows || !rows.length) return null;
+  const sorted = [...rows].sort((a, b) => Number(b.total || 0) - Number(a.total || 0));
+  const top = sorted[0];
+  return { label: top[field] || "(unknown)", total: Number(top.total || 0) };
+}
+
+function renderSummary(container, text) {
+  if (!container) return;
+  container.innerHTML = text ? `<p class="summary__line">${text}</p>` : "<p class=\"helper\">No data yet.</p>";
 }
 
 async function loadStats(targets = {}) {
@@ -59,28 +59,26 @@ async function loadStats(targets = {}) {
   const actionTotal = (actionRows || []).reduce((sum, row) => sum + Number(row.total || 0), 0);
   const anchorTotal = (anchorRows || []).reduce((sum, row) => sum + Number(row.total || 0), 0);
 
-  renderTable(
-    targets.days || document.getElementById("daysTable"),
-    (daysRows || []).map((row) => [row.days, row.total, formatPercent(row.total, daysTotal)]),
-    ["Days", "Count", "%"]
-  );
+  const topDays = pickTop(daysRows, "days");
+  const topFriction = pickTop(frictionRows, "friction");
+  const topAction = pickTop(actionRows, "action");
+  const topAnchor = pickTop(anchorRows, "anchor");
 
-  renderTable(
-    targets.friction || document.getElementById("frictionTable"),
-    (frictionRows || []).map((row) => [row.friction || "(unknown)", row.total, formatPercent(row.total, frictionTotal)]),
-    ["Blocker", "Count", "%"]
+  renderSummary(
+    targets.days || document.getElementById("daysSummary"),
+    topDays ? `${formatPercent(topDays.total, daysTotal)} chose ${topDays.label} days.` : ""
   );
-
-  renderTable(
-    targets.action || document.getElementById("actionTable"),
-    (actionRows || []).map((row) => [row.action || "(unknown)", row.total, formatPercent(row.total, actionTotal)]),
-    ["Action", "Count", "%"]
+  renderSummary(
+    targets.friction || document.getElementById("frictionSummary"),
+    topFriction ? `${formatPercent(topFriction.total, frictionTotal)} share the same blocker: ${topFriction.label}.` : ""
   );
-
-  renderTable(
-    targets.anchor || document.getElementById("anchorTable"),
-    (anchorRows || []).map((row) => [row.anchor || "(unknown)", row.total, formatPercent(row.total, anchorTotal)]),
-    ["Time Anchor", "Count", "%"]
+  renderSummary(
+    targets.action || document.getElementById("actionSummary"),
+    topAction ? `${formatPercent(topAction.total, actionTotal)} picked: ${topAction.label}.` : ""
+  );
+  renderSummary(
+    targets.anchor || document.getElementById("anchorSummary"),
+    topAnchor ? `${formatPercent(topAnchor.total, anchorTotal)} anchor it ${topAnchor.label}.` : ""
   );
 }
 
@@ -90,9 +88,9 @@ window.addEventListener("load", () => {
 
 window.renderInlineStats = () => {
   loadStats({
-    days: document.getElementById("inlineDaysTable"),
-    friction: document.getElementById("inlineFrictionTable"),
-    action: document.getElementById("inlineActionTable"),
-    anchor: document.getElementById("inlineAnchorTable"),
+    days: document.getElementById("inlineDaysSummary"),
+    friction: document.getElementById("inlineFrictionSummary"),
+    action: document.getElementById("inlineActionSummary"),
+    anchor: document.getElementById("inlineAnchorSummary"),
   });
 };
