@@ -28,6 +28,41 @@ const frictionCopy = {
   environment: "my environment blocks me",
 };
 
+let supabaseClient = null;
+
+function initSupabase() {
+  if (!window.worksheetConfig || !worksheetConfig.analytics.enabled) {
+    return;
+  }
+  if (!window.supabase) {
+    return;
+  }
+
+  const url = worksheetConfig.analytics.supabaseUrl;
+  const key = worksheetConfig.analytics.supabaseAnonKey;
+  if (!url || !key || url.includes("YOUR_PROJECT_ID") || key.includes("YOUR_SUPABASE_ANON_KEY")) {
+    return;
+  }
+
+  supabaseClient = window.supabase.createClient(url, key);
+}
+
+async function sendEvent(name, payload) {
+  if (!supabaseClient) {
+    return;
+  }
+  const event = {
+    name,
+    payload,
+  };
+
+  try {
+    await supabaseClient.from("worksheet_events").insert([event]);
+  } catch (error) {
+    console.error("Supabase insert failed", error);
+  }
+}
+
 function showScreen(index) {
   screens.forEach((screen, i) => {
     screen.hidden = i !== index;
@@ -48,6 +83,7 @@ function logEvent(name, payload) {
   const history = JSON.parse(localStorage.getItem("worksheetEvents") || "[]");
   history.push(entry);
   localStorage.setItem("worksheetEvents", JSON.stringify(history));
+  sendEvent(name, payload);
 }
 
 function applyConfig() {
@@ -81,6 +117,7 @@ function applyConfig() {
 }
 
 applyConfig();
+initSupabase();
 
 daysRange.addEventListener("input", (event) => {
   daysValue.textContent = event.target.value;

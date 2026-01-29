@@ -1,8 +1,8 @@
 const worksheetConfig = {
   analytics: {
     enabled: true,
-    supabaseUrl: "https://crtgcqnwmdksgphtvfzo.supabase.co",
-    supabaseAnonKey: "sb_publishable_-9TzSAGYbflXmIaUzNfobA_PBSB1ScS"
+    supabaseUrl: "https://YOUR_PROJECT_ID.supabase.co",
+    supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY"
   },
   screen1: {
     title: "Quick check-in",
